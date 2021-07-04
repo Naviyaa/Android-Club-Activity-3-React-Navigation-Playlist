@@ -3,6 +3,7 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import {
+  useTheme,
   Avatar,
   Title,
   Caption,
@@ -14,11 +15,16 @@ import {
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import {AuthContext} from '../components/context';
+
 export function DrawerContent(props) {
-    const [isDarkTheme, setIsDarkTheme] = React.useState(false);
-    const toggleTheme = () => {
-        setIsDarkTheme(!isDarkTheme);
-    };
+    // const [isDarkTheme, setIsDarkTheme] = React.useState(false);
+    // const toggleTheme = () => {
+    //     setIsDarkTheme(!isDarkTheme);
+    // };
+
+    const paperTheme = useTheme();
+    const { signOut, toggleTheme } = React.useContext(AuthContext);
 
   return (
     <View style={{flex:1}}>
@@ -55,7 +61,7 @@ export function DrawerContent(props) {
                         <View style={styles.preference}>
                             <Text>Dark Theme</Text>
                             <View pointerEvents="none">
-                                <Switch value={isDarkTheme} />
+                                <Switch value={paperTheme.dark} />
                             </View>
                         </View>
                     </TouchableRipple>
@@ -65,7 +71,7 @@ export function DrawerContent(props) {
         <Drawer.Section style={styles.bottomDrawerSection}>
             <DrawerItem icon={({color, size}) => (
                 <Icon name="exit-to-app" color={color} size={size} />
-            )} label="Sign Out" onPress={() => {}} />
+            )} label="Sign Out" onPress={() => {signOut();}} />
         </Drawer.Section>
     </View>
   );
